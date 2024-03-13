@@ -440,7 +440,11 @@ function createDrawArea(canvas = blankCanvas(),initialTitle="Image") {
         setTimeout(_=>self.stopDraw(x,y),1)
       } else {
         this.isDrawing=false;
-        this.trajectory.push(this.strokeCoordinates);
+        var traj=[];
+        for (var i=0;i<this.strokeCoordinates.length;i++) {
+          traj.push([this.strokeCoordinates[i].x,this.strokeCoordinates[i].y]);
+        }
+        this.trajectory.push(traj);
         console.log(this.trajectory);
         this.commit(); 
       }
