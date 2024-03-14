@@ -403,6 +403,7 @@ function cloneEvent(event, modifications = {}) {
 
 function forwardEvent(mouseEvent, recipient) {
   var rect = recipient.getBoundingClientRect();
+  console.log(rect)
 
   const options = cloneEvent(mouseEvent,{
     clientX:mouseEvent.clientX - rect.left,

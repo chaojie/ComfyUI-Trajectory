@@ -13,7 +13,9 @@
 <body>
   <div class="fillparent">
     <div class="panel noselect">
-      <div id="import_control">
+      <input type="file" id="inputFile" name="inputFile" accept="image/*" style="display: none"  />
+      <label class="button" style="color:white;background-color: #0066CC;height:40px; line-height: 40px; border: solid 1px #000; width: 120px;text-align:center;" onclick="document.getElementById('inputFile').click()">上传文件</label>
+      <div id="import_control" style="display:none;">
         <label for="import_mode">
           Incoming Images
         </label>
@@ -24,13 +26,13 @@
           <option value="ignore">Ignore</option>
         </select>
       </div>
-      <div id="pen" title="Brush 🇧" class="tool button"></div>
-      <div id="eraser" title="Eraser 🇪" class="tool button" style="background-image:url(images/eraser.png);"></div>
-      <div id="pixels" title="Pixels 🇿" class="tool button" style="background-image:url(images/pixels.png);"></div>
-      <div id="fine_eraser" title="Clear pixels" class="tool button" style="background-image:url(images/fine_eraser.png);"></div>
-      <div id="eyedropper" title="Sample color 🇵" class="tool button" ></div>
-      <div id="transform" title="Tansform Layer 🇹" class="tool button" ></div>
-      <div class="subpanel actions">
+      <div id="pen" title="Brush 🇧" class="tool button" style="display:none;"></div>
+      <div id="eraser" title="Eraser 🇪" class="tool button" style="background-image:url(images/eraser.png); display:none;"></div>
+      <div id="pixels" title="Pixels 🇿" class="tool button" style="background-image:url(images/pixels.png); display:none;"></div>
+      <div id="fine_eraser" title="Clear pixels" class="tool button" style="background-image:url(images/fine_eraser.png); display:none;"></div>
+      <div id="eyedropper" title="Sample color 🇵" class="tool button"  style="display:none;"></div>
+      <div id="transform" title="Tansform Layer 🇹" class="tool button"  style="display:none;"></div>
+      <div class="subpanel actions" style="display:none;">
         <div id="clear" class="action button" ></div>
         <div id="undo" class="action button" ></div>
         <div id="redo" class="action button" ></div>
@@ -38,7 +40,7 @@
 
       </div>
     </div>
-    <div id="palette" class="noselect">
+    <div id="palette" class="noselect" style="display:none;">
       <div id="brush_opacity">
       <label for="opacity">opacity</label>
       <input class="percentage" type="text" value="100%">
@@ -50,7 +52,7 @@
     </div>
     <div id="workspace" class="background noselect">
     </div>
-    <div id="right_panel">
+    <div id="right_panel" style="display:none;">
       <div id="command_control" class = "sidepanel_block"> 
 
       </div>

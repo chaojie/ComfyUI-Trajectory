@@ -81,6 +81,19 @@ function loadImagefromURL(url) {
 
 function replaceLayerContent(layer, image) {
     const ctx = layer.canvas.getContext('2d');
+    window.test1.width=image.width;
+    window.test1.height=image.height;
+    window.test1.element.width=image.width;
+    window.test1.element.height=image.height;
+    window.test1.canvas.width=image.width;
+    window.test1.canvas.height=image.height;
+    window.test1.layers.forEach(layer => {
+      layer.width=image.width;
+      layer.height=image.height;
+      layer.canvas.width=image.width;
+      layer.canvas.height=image.height;
+    })
+    
     ctx.clearRect(0, 0, layer.canvas.width, layer.canvas.height); 
     ctx.drawImage(image, 0, 0, layer.canvas.width, layer.canvas.height); 
     

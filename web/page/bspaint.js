@@ -451,6 +451,8 @@ function createDrawArea(canvas = blankCanvas(),initialTitle="Image") {
     },
 
     draw(x,y) {
+      activeOperationCanvas.width=this.activeLayer.canvas.width;
+      activeOperationCanvas.height=this.activeLayer.canvas.height;
       this.strokeCoordinates.push({x,y});     
       //This is done in a timeout to allow multiple draw movements
       //to accumulate rather than slowing things down
@@ -463,8 +465,9 @@ function createDrawArea(canvas = blankCanvas(),initialTitle="Image") {
           ctx.setTransform(...this.activeLayer.transform);
           ctx.drawImage(this.activeLayer.canvas,0,0);
           ctx.restore();
+          console.log(this.strokeCoordinates);
           const unitRange=this.strokeCoordinates.map(({x,y})=>({x:x/canvas.width,y:y/canvas.height}));
-
+          console.log(unitRange);
           ctx.save();
           const opacity = $("#brush_opacity input[type=range]").val()/100;
           ctx.globalAlpha=opacity;
@@ -776,20 +779,20 @@ function initPaint(){
   addEventListener("keydown", handleKeyDown);
 
   $(".panel").append(brushSizeControl).append(`
-  <div class="subpanel simple_mirrors">
+  <div class="subpanel simple_mirrors" style="display:none;">
     <div id="mirror_x" class="mirror button"></div>
     <div id="mirror_y" class="mirror button"></div>
     <div id="mirror_tlbr" class="mirror button"></div>
     <div id="mirror_trbl" class="mirror button"></div>
   </div>  
-    <div class="subpanel grid_mirrors">
+    <div class="subpanel grid_mirrors" style="display:none;">
       <span style="display:inline-block;">
         <input id="repeat_x" type="number" min="1" max="10" value="3" step="1" required />
         <input id="repeat_y" type="number" min="1" max="10" value="3" step="1" required />
       </span>
       <div id="mirror_grid" class="mirror button"></div>
     </div>
-    <div class="subpanel rotational_mirrors">
+    <div class="subpanel rotational_mirrors" style="display:none;">
       <div id="mirror_rotational" class="mirror button"></div>
       <input id="repeat_x" type="number" min="2" max="180" value="2" step="1" required />
     </div>
@@ -804,6 +807,41 @@ function initPaint(){
   })
   updateMirrorGridButtonImage();
   updateMirrorRotationButtonImage();
+  
+  var inputNode = document.querySelector("#inputFile");
+  var imageNode = document.createElement('img');
+  inputNode.addEventListener(
+    "change",
+    function (e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        imageNode.src = e.target.result;
+        imageNode.onload = function () {
+          console.log("import mode is",$("#import_mode").val())
+          switch ($("#import_mode").val()) {
+              case "layer":
+                  addNewLayer(img)
+              break;
+              case "image":
+              setExportPic(addNewImage(img));    
+              break;
+              case "replace_target":
+                  if (targetLayer !== null) {
+                      replaceLayerContent(targetLayer, imageNode);
+                  }
+                  break;
+            
+              case "ignore":
+              default: 
+          }
+  
+        };
+      };
+      file && reader.readAsDataURL(file);
+    },
+    false
+  );
 
   $("#newImageBtn").on("click", function() {
     console.log("click #newImageBtn")
@@ -1112,6 +1150,7 @@ function brushDiameterControl(id="diameter") {
   const max_diameter = 48;
   element.width=192;
   element.height=max_diameter;
+  element.style.display="none";
   //radius divider removes one radius for the half circle at the end of the control
   const radiusDivider = (element.width/(max_diameter/2))-1; 
   
