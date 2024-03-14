@@ -397,7 +397,7 @@ function createDrawArea(canvas = blankCanvas(),initialTitle="Image") {
         } else {
           this.composite(true);
           transmitTrajectory(this.trajectory,this.title,selectedExport===this);
-          transmitCanvas(canvas,this.title,selectedExport===this);          
+          transmitCanvas(targetLayer.canvas,this.title,selectedExport===this);          
         }        
       //}
       if (activePic===this) {  
@@ -817,6 +817,7 @@ function initPaint(){
       var reader = new FileReader();
       reader.onload = function (e) {
         imageNode.src = e.target.result;
+        
         imageNode.onload = function () {
           console.log("import mode is",$("#import_mode").val())
           switch ($("#import_mode").val()) {
@@ -887,8 +888,8 @@ function initPaint(){
   window.test2=createDrawArea(undefined,"Image B");
   test1.setPosition(30,60) ;
   test2.setPosition(640,60) ;
-  targetLayer=test1.addEmptyLayer();  
-  test1.activeLayer=test1.addEmptyLayer();  
+  targetLayer=test1.addEmptyLayer(test1.activeLayer,"image");  
+  test1.activeLayer=test1.addEmptyLayer(test1.activeLayer,"traj");  
 
   //setActivePic(test1);
 

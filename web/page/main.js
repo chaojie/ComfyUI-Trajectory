@@ -40,6 +40,7 @@ function transmitTrajectory(trajectory,title="",selected=true) {
 function transmitCanvas(canvas,title="",selected=true) {
     if (portToMain) {
         canvas.toBlob( blob=>{
+          console.log(blob);
           portToMain.postMessage( {"image": blob,title,selected} );      
         });
       }
